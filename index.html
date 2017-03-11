@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+  html, body {
+    font-size: 40px;
+    font-family: Helvetica, Sans-Serif;
+  }
+
+  input {
+    font-size: 40px;
+    width: 400px;
+    height: 100px;
+    padding: 10px;
+  }
+
+  span {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  </style>
+</head>
+<body>
+  <p><input id="x" placeholder="買入">塊</p>
+  <p><input id="y" placeholder="賣出">塊</p>
+  <p><input id="z" placeholder="預設 1.68折">折</p>
+  <p id="s"></p>
+<script charset="UTF-8">
+document.addEventListener("DOMContentLoaded", () => {
+  const x = document.getElementById('x');
+  const y = document.getElementById('y');
+  const z = document.getElementById('z');
+  const s = document.getElementById('s');
+
+  const cal = () => {
+    s.innerHTML = '';
+    const a = Number(x.value);
+    const b = Number(y.value);
+    const c = Number(z.value);
+    const d = c || 1.68;
+      
+    if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0 || b === 0) return s.innerHTML = '又亂言';
+
+    const aa = a * 1000 + a * 1000 * 0.001425 * d * 0.1;
+    const bb = b * 1000 - b * 1000 * 0.001425 * d * 0.1 - b * 1000 * 0.001;
+
+    s.innerHTML = `
+    買花了 ${aa} 元 <br>
+      <span> ${a} * 1000 + ${a} * 1000 * 0.001425 * ${d * 0.1}</span>
+    <br><br>
+    賣拿回 ${bb} 元 <br>
+      <span> ${b} * 1000 - ${b} * 1000 * 0.001425 * ${d * 0.1} - ${b} * 1000 * 0.001 </span>
+    <br><br>
+    賺 ${bb - aa} 元
+    <br><br>
+    0050 允贏
+    `;
+  };
+
+  x.addEventListener('keyup', cal);
+  y.addEventListener('keyup', cal);
+  z.addEventListener('keyup', cal);
+});
+</script>
+</body>
+</html>
+
