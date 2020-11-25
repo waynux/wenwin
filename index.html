@@ -1,67 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <style>
-  html, body {
-    font-size: 40px;
-    font-family: Helvetica, Sans-Serif;
-  }
-
   input {
     font-size: 40px;
-    width: 300px;
-    height: 80px;
-    padding: 10px;
+    width: 250px;
+    padding: 25px;
   }
-
-  span {
+  a {
     font-size: 16px;
     margin-left: 10px;
   }
   </style>
 </head>
-<body>
-  <p><input id="x" placeholder="買入" value="8" autofocus>塊 <input type="number" id="xn" value="3">張</p>
-  <p><input id="y" placeholder="賣出" value="8">塊
-  <p><input id="z" placeholder="預設 1.68折">折
-  <p id="s"></p>
-<script charset="UTF-8">
-document.addEventListener("DOMContentLoaded", () => {
-  const x = document.getElementById('x');
-  const xn = document.getElementById('xn');
-  const y = document.getElementById('y');
-  const z = document.getElementById('z');
-  const s = document.getElementById('s');
+<body style="font-size: 40px;font-family: Helvetica, Sans-Serif;">
+  <p><input id="b" placeholder="買入" value="1" autofocus>塊 <input type="number" id="n" value="3">張</p>
+  <p><input id="s" placeholder="賣出" value="1">塊</p>
+  <p><input id="d" placeholder="預設 1.68折">折</p>
+  <p id="r"></p>
+<script>
+window.onload = setInterval(() => {
+  const find = document.getElementById.bind(document);
+  const get = e => Number(find(e).value);
+  const b = get('b');
+  const s = get('s');
+  const d = get('d') || 1.68;
+  const n = get('n');
 
-  setInterval(() => {
-    const a = Number(x.value);
-    const an = Number(xn.value);
-    const b = Number(y.value);
-    const c = Number(z.value);
-    const d = (c || 1.68);
-      
-    if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0 || b === 0) return s.innerHTML = '再來一次';
-
-    const aa = (a * 1000 + a * 0.1425 * d) * an;
-    const bb = (b * 999 - b * 0.1425 * d) * an;
-
-    s.innerHTML = `
-    賺 ${(bb - aa).toFixed(2)} 元 
-    <br>
-    <span>0050 允贏</span>
-    <br><br>
-    <br>
-
-    買花了 ${aa.toFixed(2)} 元 <br>
-      <span> (${a} * 1000 + ${a} * 1000 * 0.001425 * ${d} * 0.1) * ${an} </span>
-    <br><br>
-    賣拿回 ${bb.toFixed(2)} 元 <br>
-      <span> (${b} * 1000 - ${b} * 1000 * 0.001425 * ${d} * 0.1 - ${b} * 1000 * 0.001) * ${an} </span>
-    <br><br>
-    `;
-  }, 1000);
-});
+  const x = (b * 1000 + b * 0.1425 * d) * n;
+  const y = (s * 999 - s * 0.1425 * d) * n;
+  find('r').innerHTML = isNaN(y - x) ? '再來一次':`
+    賺 ${(y - x).toFixed(2)} 元
+      <a>0050 允贏</a><br>
+    買 ${x.toFixed(2)} 元
+      <a>(${b}*1000 + ${b}*1000*0.001425*${d}*0.1)*${n}</a><br>
+    賣 ${y.toFixed(2)} 元
+      <a>(${s}*1000 - ${s}*1000*0.001425*${d}*0.1 - ${s}*1000*0.001)*${n}</a>`;
+}, 1000);
 </script>
 </body>
 </html>
