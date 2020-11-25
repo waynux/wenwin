@@ -10,8 +10,8 @@
 
   input {
     font-size: 40px;
-    width: 400px;
-    height: 100px;
+    width: 300px;
+    height: 80px;
     padding: 10px;
   }
 
@@ -22,47 +22,46 @@
   </style>
 </head>
 <body>
-  <p><input id="x" placeholder="買入">塊</p>
-  <p><input id="y" placeholder="賣出">塊</p>
-  <p><input id="z" placeholder="預設 1.68折">折</p>
+  <p><input id="x" placeholder="買入" value="8" autofocus>塊 <input type="number" id="xn" value="3">張</p>
+  <p><input id="y" placeholder="賣出" value="8">塊
+  <p><input id="z" placeholder="預設 1.68折">折
   <p id="s"></p>
 <script charset="UTF-8">
 document.addEventListener("DOMContentLoaded", () => {
   const x = document.getElementById('x');
+  const xn = document.getElementById('xn');
   const y = document.getElementById('y');
   const z = document.getElementById('z');
   const s = document.getElementById('s');
 
-  const cal = () => {
-    s.innerHTML = '';
+  setInterval(() => {
     const a = Number(x.value);
+    const an = Number(xn.value);
     const b = Number(y.value);
     const c = Number(z.value);
-    const d = c || 1.68;
+    const d = (c || 1.68);
       
-    if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0 || b === 0) return s.innerHTML = '又亂言';
+    if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0 || b === 0) return s.innerHTML = '再來一次';
 
-    const aa = a * 1000 + a * 1000 * 0.001425 * d * 0.1;
-    const bb = b * 1000 - b * 1000 * 0.001425 * d * 0.1 - b * 1000 * 0.001;
+    const aa = (a * 1000 + a * 0.1425 * d) * an;
+    const bb = (b * 999 - b * 0.1425 * d) * an;
 
     s.innerHTML = `
-    買花了 ${aa} 元 <br>
-      <span> ${a} * 1000 + ${a} * 1000 * 0.001425 * ${d * 0.1}</span>
+    賺 ${(bb - aa).toFixed(2)} 元 
+    <br>
+    <span>0050 允贏</span>
     <br><br>
-    賣拿回 ${bb} 元 <br>
-      <span> ${b} * 1000 - ${b} * 1000 * 0.001425 * ${d * 0.1} - ${b} * 1000 * 0.001 </span>
-    <br><br>
-    賺 ${bb - aa} 元
-    <br><br>
-    0050 允贏
-    `;
-  };
+    <br>
 
-  x.addEventListener('keyup', cal);
-  y.addEventListener('keyup', cal);
-  z.addEventListener('keyup', cal);
+    買花了 ${aa.toFixed(2)} 元 <br>
+      <span> (${a} * 1000 + ${a} * 1000 * 0.001425 * ${d} * 0.1) * ${an} </span>
+    <br><br>
+    賣拿回 ${bb.toFixed(2)} 元 <br>
+      <span> (${b} * 1000 - ${b} * 1000 * 0.001425 * ${d} * 0.1 - ${b} * 1000 * 0.001) * ${an} </span>
+    <br><br>
+    `;
+  }, 1000);
 });
 </script>
 </body>
 </html>
-
