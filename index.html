@@ -1,45 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="./50.ico">
-  <title>0050 允贏</title>
-  <style>
-  input {
-    font-size: 40px;
-    width: 250px;
-    padding: 25px;
-  }
-  a {
-    font-size: 16px;
-    margin-left: 10px;
-  }
-  </style>
+<meta charset="UTF-8">
+<title>0050 允贏</title>
+<style>
+  body { font-size:40px; font-family:Helvetica, sans-serif; }
+  input { font-size:40px; width:250px; padding:25px; }
+  a { font-size:16px; margin-left:10px; }
+</style>
 </head>
-<body style="font-size: 40px;font-family: Helvetica, Sans-Serif;">
-  <p><input id="b" placeholder="買入" value="7" autofocus>塊 <input type="number" id="n" value="1">張</p>
-  <p><input id="s" placeholder="賣出" value="100">塊</p>
-  <p><input id="d" placeholder="預設 1.68折">折</p>
-  <p id="r"></p>
-<script>
-window.onload = setInterval(() => {
-  const find = document.getElementById.bind(document);
-  const get = e => Number(find(e).value);
-  const b = get('b');
-  const s = get('s');
-  const d = get('d') || 1.68;
-  const n = get('n');
+<body>
+<p>
+  <input id="b" placeholder="買入" value="7" autofocus>塊
+  <input type="number" id="n" value="1">張
+</p>
+<p><input id="s" placeholder="賣出" value="100">塊</p>
+<p><input id="d" placeholder="預設 1.68折">折</p>
+<p id="r"></p>
 
-  const x = (b * 1000 + b * 0.1425 * d) * n;
-  const y = (s * 999 - s * 0.1425 * d) * n;
-  find('r').innerHTML = isNaN(y - x) ? '再來一次':`
-    賺 ${(y - x).toFixed(2)} 元
-      <a>0050 允贏</a><br>
+<script>
+const $ = id => document.getElementById(id);
+
+function calc() {
+  const b = +$('b').value, s = +$('s').value, n = +$('n').value, d = +$('d').value || 1.68;
+  const x = (b*1000 + b*0.1425*d)*n;
+  const y = (s*999 - s*0.1425*d)*n;
+  $('r').innerHTML = isNaN(y-x) ? '再來一次' :
+    `賺 ${(y-x).toFixed(2)} 元
+    <a>0050 允贏</a><br>
     買 ${x.toFixed(2)} 元
-      <a>(${b}*1000 + ${b}*1000*0.001425*${d}*0.1)*${n}</a><br>
+    <a>(${b}*1000 + ${b}*1000*0.001425*${d}*0.1)*${n}</a><br>
     賣 ${y.toFixed(2)} 元
-      <a>(${s}*1000 - ${s}*1000*0.001425*${d}*0.1 - ${s}*1000*0.001)*${n}</a>`;
-}, 1000);
+    <a>(${s}*1000 - ${s}*1000*0.001425*${d}*0.1 - ${s}*1000*0.001)*${n}</a>`;
+}
+
+// 為三個輸入加事件監聽
+['b','s','n','d'].forEach(id => $(id).addEventListener('input', calc));
+
+// 初始化
+calc();
 </script>
 </body>
 </html>
